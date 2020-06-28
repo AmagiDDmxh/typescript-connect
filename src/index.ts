@@ -1,5 +1,3 @@
-import { string } from "../node_modules/_@types_yargs@15.0.5@@types/yargs/index";
-
 interface Action<T> {
   payload?: T;
   type: string;
