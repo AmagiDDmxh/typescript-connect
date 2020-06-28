@@ -1,0 +1,18 @@
+{
+  "name": "typescript-connect",
+  "version": "0.0.1",
+  "description": "Type libary for react-effect-like, use to solve hiring problem of LC",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "amagiddmxh",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jest": "^26.0.3",
+    "jest": "^26.1.0",
+    "ts-jest": "^26.1.1",
+    "typescript": "^3.9.5"
+  }
+}
