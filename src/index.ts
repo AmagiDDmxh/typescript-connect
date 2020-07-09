@@ -25,8 +25,9 @@ class EffectModule {
 // 修改 Connect 的类型，让 connected 的类型变成预期的类型
 // Find this on https://jkchao.github.io/typescript-book-chinese/tips/infer.html
 // type FuncName<T> = { [P in keyof T]: T[P] extends Function ? P : never}[keyof T]
-type ExtractAnd<T, U, O> = Extract<T, U> extends never ? never : O
-type FuncName<T> = { [P in keyof T]: ExtractAnd<T[P], Function, P>}[keyof T]
+// Is T extends Function so return type O else never
+type ExtractFunctionAnd<T, O> = Extract<T, Function> extends never ? never : O
+type FuncName<T> = { [K in keyof T]: ExtractFunctionAnd<T[K], K>}[keyof T]
 
 type AsyncMethod<T, U> = (input: Promise<T>) => Promise<Action<U>>
 type SyncMethod<T, U> = (input: Action<T>) => Action<U>
@@ -36,7 +37,16 @@ type ConnectMethod<T, P> = UnaryFunction<T, Action<P>>
 type ConnectMethods<T> = 
   T extends AsyncMethod<infer I, infer O> | SyncMethod<infer I, infer O>
     ? ConnectMethod<I, O>
-    : unknown
+    : unknown  // is never better?
+
+// Other looks great solution
+type PickFuncKeys<T> = { [K in keyof T]: T[K] extends Function ? K : never }[keyof T]
+type ExtractContainer<P> = {
+  [K in PickFuncKeys<P>]: 
+    P[K] extends (arg: Promise<infer T>) => Promise<infer U> ? (arg: T) => U :
+      p[K] extends (arg: Action<infer T>) => Action<infer U> ? (arg: T) => Action<U> :
+        never
+}
 
 /* 
 1: Filter out to get the function and assign it to the keyof object
