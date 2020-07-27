@@ -40,13 +40,13 @@ type ConnectMethods<T> =
     : unknown  // is never better?
 
 // Other looks great solution
-type PickFuncKeys<T> = { [K in keyof T]: T[K] extends Function ? K : never }[keyof T]
-type ExtractContainer<P> = {
-  [K in PickFuncKeys<P>]: 
-    P[K] extends (arg: Promise<infer T>) => Promise<infer U> ? (arg: T) => U :
-      p[K] extends (arg: Action<infer T>) => Action<infer U> ? (arg: T) => Action<U> :
-        never
-}
+// type PickFuncKeys<T> = { [K in keyof T]: T[K] extends Function ? K : never }[keyof T]
+// type ExtractContainer<P> = {
+//   [K in PickFuncKeys<P>]: 
+//     P[K] extends (arg: Promise<infer T>) => Promise<infer U> ? (arg: T) => U :
+//       P[K] extends (arg: Action<infer T>) => Action<infer U> ? (arg: T) => Action<U> :
+//         never
+// }
 
 /* 
 1: Filter out to get the function and assign it to the keyof object
